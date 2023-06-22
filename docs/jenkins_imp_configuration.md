@@ -768,34 +768,421 @@ Pipeline has support for creating "Shared Libraries" which can be defined in ext
 https://www.jenkins.io/doc/book/pipeline/shared-libraries/
 -----------------------------------------------------------------------------------------------------------------------------------
 
-Command-line Pipeline Linter
+## Command-line Pipeline Linter
 Jenkins can validate, or "lint", a Declarative Pipeline from the command line before actually running it. This can be done using a Jenkins CLI command or by making an HTTP POST request with appropriate parameters. We recommended using the SSH interface to run the linter. See the Jenkins CLI documentation for details on how to properly configure Jenkins for secure command-line access.
 
-Linting via the CLI with SSH
+* Linting via the CLI with SSH
 
-'''
+```
 # ssh (Jenkins CLI)
 # JENKINS_PORT=[sshd port on controller]
 # JENKINS_HOST=[Jenkins controller hostname]
 ssh -p $JENKINS_PORT $JENKINS_HOST declarative-linter < Jenkinsfile
-'''
+```
 
 or
 
-Linting via HTTP POST using curl
+* Linting via HTTP POST using curl
 
-'''
+```
 # curl (REST API)
 # Assuming "anonymous read access" has been enabled on your Jenkins instance.
 # JENKINS_URL=[root URL of Jenkins controller]
 # JENKINS_CRUMB is needed if your Jenkins controller has CRSF protection enabled as it should
 JENKINS_CRUMB=`curl "$JENKINS_URL/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)"`
 curl -X POST -H $JENKINS_CRUMB -F "jenkinsfile=<Jenkinsfile" $JENKINS_URL/pipeline-model-converter/validate
-'''
-
-Blue Ocean Editor
+```
+** Blue Ocean Editor
 The Blue Ocean Pipeline Editor provides a WYSIWYG way to create Declarative Pipelines. The editor offers a structural view of all the stages, parallel branches, and steps in a Pipeline. The editor validates Pipeline changes as they are made, eliminating many errors before they are even committed. Behind the scenes it still generates Declarative Pipeline code.
 
-IDE Integrations
+* IDE Integrations
 Eclipse / atom /sublime /vscode etc 
+
+refrence : https://www.jenkins.io/doc/book/pipeline/development/
+
+-----------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+
+## Differences between top level agents and stage level agents
+	* read articke for more details, included top level and stage level agent timeout
+
+## Parameters
+In order to support the wide variety of use-cases Pipeline authors may have, the agent section supports a few different types of parameters. These parameters can be applied at the top-level of the pipeline block, or within each stage directive.
+
+### any
+Execute the Pipeline, or stage, on any available agent. For example: agent any
+
+### none
+When applied at the top-level of the pipeline block no global agent will be allocated for the entire Pipeline run and each stage section will need to contain its own agent section. For example: agent none
+
+### label
+Execute the Pipeline, or stage, on an agent available in the Jenkins environment with the provided label. For example: agent { label 'my-defined-label' }
+
+Label conditions can also be used. For example: agent { label 'my-label1 && my-label2' } or agent { label 'my-label1 || my-label2' }
+
+### node
+agent { node { label 'labelName' } } behaves the same as agent { label 'labelName' }, but node allows for additional options (such as customWorkspace).
+
+### docker
+Execute the Pipeline, or stage, with the given container which will be dynamically provisioned on a node pre-configured to accept Docker-based Pipelines, or on a node matching the optionally defined label parameter. docker also optionally accepts an args parameter which may contain arguments to pass directly to a docker run invocation, and an alwaysPull option, which will force a docker pull even if the image name is already present. For example: agent { docker 'maven:3.9.0-eclipse-temurin-11' } or
+
+```
+agent {
+    docker {
+        image 'maven:3.9.0-eclipse-temurin-11'
+        label 'my-defined-label'
+        args  '-v /tmp:/tmp'
+    }
+}
+```
+
+docker also optionally accepts a registryUrl and registryCredentialsId parameters which will help to specify the Docker Registry to use and its credentials. The parameter registryCredentialsId could be used alone for private repositories within the docker hub. For example:
+
+
+```
+agent {
+    docker {
+        image 'myregistry.com/node'
+        label 'my-defined-label'
+        registryUrl 'https://myregistry.com/'
+        registryCredentialsId 'myPredefinedCredentialsInJenkins'
+    }
+}
+```
+
+Execute the Pipeline, or stage, with a container built from a Dockerfile contained in the source repository. In order to use this option, the Jenkinsfile must be loaded from either a Multibranch Pipeline or a Pipeline from SCM. Conventionally this is the Dockerfile in the root of the source repository: agent { dockerfile true }. If building a Dockerfile in another directory, use the dir option: agent { dockerfile { dir 'someSubDir' } }. If your Dockerfile has another name, you can specify the file name with the filename option. You can pass additional arguments to the docker build …​command with the additionalBuildArgs option, like agent { dockerfile { additionalBuildArgs '--build-arg foo=bar' } }. For example, a repository with the file build/Dockerfile.build, expecting a build argument version:
+
+```
+agent {
+    // Equivalent to "docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
+    dockerfile {
+        filename 'Dockerfile.build'
+        dir 'build'
+        label 'my-defined-label'
+        additionalBuildArgs  '--build-arg version=1.0.2'
+        args '-v /tmp:/tmp'
+    }
+}
+```
+dockerfile also optionally accepts a registryUrl and registryCredentialsId parameters which will help to specify the Docker Registry to use and its credentials. For example:
+```
+agent {
+    dockerfile {
+        filename 'Dockerfile.build'
+        dir 'build'
+        label 'my-defined-label'
+        registryUrl 'https://myregistry.com/'
+        registryCredentialsId 'myPredefinedCredentialsInJenkins'
+    }
+}
+```
+
+### kubernetes
+Execute the Pipeline, or stage, inside a pod deployed on a Kubernetes cluster. In order to use this option, the Jenkinsfile must be loaded from either a Multibranch Pipeline or a Pipeline from SCM. The Pod template is defined inside the kubernetes { } block. For example, if you want a pod with a Kaniko container inside it, you would define it as follows:
+```
+agent {
+    kubernetes {
+        defaultContainer 'kaniko'
+        yaml '''
+kind: Pod
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    imagePullPolicy: Always
+    command:
+    - sleep
+    args:
+    - 99d
+    volumeMounts:
+      - name: aws-secret
+        mountPath: /root/.aws/
+      - name: docker-registry-config
+        mountPath: /kaniko/.docker
+  volumes:
+    - name: aws-secret
+      secret:
+        secretName: aws-secret
+    - name: docker-registry-config
+      configMap:
+        name: docker-registry-config
+'''
+   }
+```
+You will need to create a secret aws-secret for Kaniko to be able to authenticate with ECR. This secret should contain the contents of ~/.aws/credentials. The other volume is a ConfigMap which should contain the endpoint of your ECR registry. For example:
+```
+{
+      "credHelpers": {
+        "<your-aws-account-id>.dkr.ecr.eu-central-1.amazonaws.com": "ecr-login"
+      }
+}
+```
+
+
+### customWorkspace
+A string. Run the Pipeline or individual stage this agent is applied to within this custom workspace, rather than the default. It can be either a relative path, in which case the custom workspace will be under the workspace root on the node, or an absolute path. For example:
+```
+agent {
+    node {
+        label 'my-defined-label'
+        customWorkspace '/some/other/path'
+    }
+}
+```
+This option is valid for node, docker, and dockerfile.
+
+### reuseNode
+A boolean, false by default. If true, run the container on the node specified at the top-level of the Pipeline, in the same workspace, rather than on a new node entirely.
+
+This option is valid for docker and dockerfile, and only has an effect when used on an agent for an individual stage.
+
+## post
+The post section defines one or more additional steps that are run upon the completion of a Pipeline’s or stage’s run (depending on the location of the post section within the Pipeline). post can support any of the following post-condition blocks: always, changed, fixed, regression, aborted, failure, success, unstable, unsuccessful, and cleanup. These condition blocks allow the execution of steps inside each condition depending on the completion status of the Pipeline or stage. 
+
+### Conditions
+* always
+Run the steps in the post section regardless of the completion status of the Pipeline’s or stage’s run.
+
+* changed
+Only run the steps in post if the current Pipeline’s run has a different completion status from its previous run.
+
+* fixed
+Only run the steps in post if the current Pipeline’s run is successful and the previous run failed or was unstable.
+
+* regression
+Only run the steps in post if the current Pipeline’s or status is failure, unstable, or aborted and the previous run was successful.
+
+* aborted
+Only run the steps in post if the current Pipeline’s run has an "aborted" status, usually due to the Pipeline being manually aborted. This is typically denoted by gray in the web UI.
+
+* failure
+Only run the steps in post if the current Pipeline’s or stage’s run has a "failed" status, typically denoted by red in the web UI.
+
+* success
+Only run the steps in post if the current Pipeline’s or stage’s run has a "success" status, typically denoted by blue or green in the web UI.
+
+* unstable
+Only run the steps in post if the current Pipeline’s run has an "unstable" status, usually caused by test failures, code violations, etc. This is typically denoted by yellow in the web UI.
+
+* unsuccessful
+Only run the steps in post if the current Pipeline’s or stage’s run has not a "success" status. This is typically denoted in the web UI depending on the status previously mentioned (for stages this may fire if the build itself is unstable).
+
+* cleanup
+Run the steps in this post condition after every other post condition has been evaluated, regardless of the Pipeline or stage’s status.
+
+```
+pipeline {
+    agent any
+    stages {
+        stage('Example') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
+    post {
+        always {
+            echo 'I will always say Hello again!'
+        }
+    }
+}
+```
+
+## Directives :
+
+### environment
+The environment directive specifies a sequence of key-value pairs which will be defined as environment variables for all steps, or stage-specific steps, depending on where the environment directive is located within the Pipeline.
+
+This directive supports a special helper method credentials() which can be used to access pre-defined Credentials by their identifier in the Jenkins environment
+
+### options
+The options directive allows configuring Pipeline-specific options from within the Pipeline itself. Pipeline provides a number of these options, such as buildDiscarder, but they may also be provided by plugins, such as timestamps.
+
+## Available Options
+* buildDiscarder
+Persist artifacts and console output for the specific number of recent Pipeline runs. For example: options { buildDiscarder(logRotator(numToKeepStr: '1')) }
+
+* checkoutToSubdirectory
+Perform the automatic source control checkout in a subdirectory of the workspace. For example: options { checkoutToSubdirectory('foo') }
+
+* disableConcurrentBuilds
+Disallow concurrent executions of the Pipeline. Can be useful for preventing simultaneous accesses to shared resources, etc. For example: options { disableConcurrentBuilds() } to queue a build when there’s already an executing build of the Pipeline, or options { disableConcurrentBuilds(abortPrevious: true) } to abort the running one and start the new build.
+
+* disableResume
+Do not allow the pipeline to resume if the controller restarts. For example: options { disableResume() }
+
+* newContainerPerStage
+Used with docker or dockerfile top-level agent. When specified, each stage will run in a new container instance on the same node, rather than all stages running in the same container instance.
+
+* overrideIndexTriggers
+Allows overriding default treatment of branch indexing triggers. If branch indexing triggers are disabled at the multibranch or organization label, options { overrideIndexTriggers(true) } will enable them for this job only. Otherwise, options { overrideIndexTriggers(false) } will disable branch indexing triggers for this job only.
+
+* preserveStashes
+Preserve stashes from completed builds, for use with stage restarting. For example: options { preserveStashes() } to preserve the stashes from the most recent completed build, or options { preserveStashes(buildCount: 5) } to preserve the stashes from the five most recent completed builds.
+
+* quietPeriod
+Set the quiet period, in seconds, for the Pipeline, overriding the global default. For example: options { quietPeriod(30) }
+
+* retry
+On failure, retry the entire Pipeline the specified number of times. For example: options { retry(3) }
+
+* skipDefaultCheckout
+Skip checking out code from source control by default in the agent directive. For example: options { skipDefaultCheckout() }
+
+* skipStagesAfterUnstable
+Skip stages once the build status has gone to UNSTABLE. For example: options { skipStagesAfterUnstable() }
+
+* timeout
+Set a timeout period for the Pipeline run, after which Jenkins should abort the Pipeline. For example: options { timeout(time: 1, unit: 'HOURS') }
+
+* timestamps
+Prepend all console output generated by the Pipeline run with the time at which the line was emitted. For example: options { timestamps() }
+
+* parallelsAlwaysFailFast
+Set failfast true for all subsequent parallel stages in the pipeline. For example: options { parallelsAlwaysFailFast() }
+
+* disableRestartFromStage
+Completely disable option "Restart From Stage" visible in classic Jenkins UI and Blue Ocean as well. For example: options { disableRestartFromStage() }. This option can not be used inside of the stage.
+
+
+## parameters
+The parameters directive provides a list of parameters that a user should provide when triggering the Pipeline. The values for these user-specified parameters are made available to Pipeline steps via the params object, see the Parameters, Declarative Pipeline for its specific usage.
+
+Each parameter has a Name and Value, depending on the parameter type. This information is exported as environment variables when the build starts, allowing subsequent parts of the build configuration to access those values. For example, use the ${PARAMETER_NAME} syntax with POSIX shells like bash and ksh, the ${Env:PARAMETER_NAME} syntax with PowerShell, or the %PARAMETER_NAME% syntax with Windows cmd.exe.
+
+### Available Parameters
+* string
+A parameter of a string type, for example: parameters { string(name: 'DEPLOY_ENV', defaultValue: 'staging', description: '') }
+
+* text
+A text parameter, which can contain multiple lines, for example: parameters { text(name: 'DEPLOY_TEXT', defaultValue: 'One\nTwo\nThree\n', description: '') }
+
+* booleanParam
+A boolean parameter, for example: parameters { booleanParam(name: 'DEBUG_BUILD', defaultValue: true, description: '') }
+
+* choice
+A choice parameter, for example: parameters { choice(name: 'CHOICES', choices: ['one', 'two', 'three'], description: '') }. The first value is the default.
+
+* password
+A password parameter, for example: parameters { password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'A secret password') }
+
+```
+pipeline {
+    agent any
+    parameters {
+        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+
+        text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+
+        booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
+
+        choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
+
+        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
+    }
+    stages {
+        stage('Example') {
+            steps {
+                echo "Hello ${params.PERSON}"
+
+                echo "Biography: ${params.BIOGRAPHY}"
+
+                echo "Toggle: ${params.TOGGLE}"
+
+                echo "Choice: ${params.CHOICE}"
+
+                echo "Password: ${params.PASSWORD}"
+            }
+        }
+    }
+}
+```
+
+### triggers
+The triggers directive defines the automated ways in which the Pipeline should be re-triggered. For Pipelines which are integrated with a source such as GitHub or BitBucket, triggers may not be necessary as webhooks-based integration will likely already be present. The triggers currently available are cron, pollSCM and upstream.
+
+cron
+Accepts a cron-style string to define a regular interval at which the Pipeline should be re-triggered, for example: triggers { cron('H */4 * * 1-5') }
+
+pollSCM
+Accepts a cron-style string to define a regular interval at which Jenkins should check for new source changes. If new changes exist, the Pipeline will be re-triggered. For example: triggers { pollSCM('H */4 * * 1-5') }
+
+upstream
+Accepts a comma-separated string of jobs and a threshold. When any job in the string finishes with the minimum threshold, the Pipeline will be re-triggered. For example: triggers { upstream(upstreamProjects: 'job1,job2', threshold: hudson.model.Result.SUCCESS) }
+
+## tools
+A section defining tools to auto-install and put on the PATH. This is ignored if agent none is specified.
+
+*Supported Tools
+	* maven
+	* jdk
+	* gradle
+## input
+The input directive on a stage allows you to prompt for input, using the input step. The stage will pause after any options have been applied, and before entering the agent block for that stage or evaluating the when condition of the stage. If the input is approved, the stage will then continue. Any parameters provided as part of the input submission will be available in the environment for the rest of the stage.
+
+### Configuration options
+* message
+Required. This will be presented to the user when they go to submit the input.
+
+* id
+An optional identifier for this input. The default value is based on the stage name.
+
+* ok
+Optional text for the "ok" button on the input form.
+
+* submitter
+An optional comma-separated list of users or external group names who are allowed to submit this input. Defaults to allowing any user.
+
+* submitterParameter
+An optional name of an environment variable to set with the submitter name, if present.
+
+* parameters
+An optional list of parameters to prompt the submitter to provide. See parameters for more information.
+
+Example 14. Input Step, Declarative Pipeline
+```
+pipeline {
+    agent any
+    stages {
+        stage('Example') {
+            input {
+                message "Should we continue?"
+                ok "Yes, we should."
+                submitter "alice,bob"
+                parameters {
+                    string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+                }
+            }
+            steps {
+                echo "Hello, ${PERSON}, nice to meet you."
+            }
+        }
+    }
+}
+```
+### when
+The when directive allows the Pipeline to determine whether the stage should be executed depending on the given condition. The when directive must contain at least one condition. If the when directive contains more than one condition, all the child conditions must return true for the stage to execute. This is the same as if the child conditions were nested in an allOf condition (see the examples below). If an anyOf condition is used, note that the condition skips remaining tests as soon as the first "true" condition is found.
+
+More complex conditional structures can be built using the nesting conditions: not, allOf, or anyOf. Nesting conditions may be nested to any arbitrary depth.
+
+## more details on docs :
+Sequential Stages
+Parallel
+Matrix
+axes
+stages
+excludes (optional)
+Matrix cell-level directives (optional)
+Steps
+script
+Scripted Pipeline
+Flow Control
+Steps etc 
+
+refrence : https://www.jenkins.io/doc/book/pipeline/syntax/
+
+
+-----------------------------------------------------------
+----------------------------------------------------------
+
 
