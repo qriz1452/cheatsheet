@@ -1165,7 +1165,7 @@ The when directive allows the Pipeline to determine whether the stage should be 
 
 More complex conditional structures can be built using the nesting conditions: not, allOf, or anyOf. Nesting conditions may be nested to any arbitrary depth.
 
-## more details on docs :
+#THIS and other topics need to complete pipeline topic:
 Sequential Stages
 Parallel
 Matrix
@@ -1186,3 +1186,293 @@ refrence : https://www.jenkins.io/doc/book/pipeline/syntax/
 ----------------------------------------------------------
 
 
+## Blue ocean - only plugin ( just another UI of jenkins ) so no need to learn more
+
+-----------------------------------------------------------
+----------------------------------------------------------
+
+
+## Managing Jenkins :
+### Configuration as Code 
+The Jenkins Configuration as Code (JCasC) feature defines Jenkins configuration parameters in a human-readable YAML file that can be stored as source code. This essentially captures the configuration parameters and values that are used when configuring Jenkins from the web UI. The configuration can then be modified by editing this file and then applying it.
+
+JCasC provides the convenience and flexibility of configuring controllers without using the UI. It does not require more understanding of the configuration parameters than is required to configure Jenkins through the UI and it provides some checks on the values that are provided.
+
+The JCasC configuration file can be checked into an SCM, which enables you to determine who made what modifications to the configuration and to roll back to a previous configuration if necessary.
+
+The Configuration as Code plugin must be installed on the Jenkins controller that you will use to build out your JCasC configuration. If you do not see the Configuration as Code tile in the System Configuration section of the Manage Jenkins page on your dashboard, you need to install the plugin.
+
+file example : https://medium.com/globant/jenkins-jcasc-for-beginners-819dff6f8bc
+It only stores jenkins conf. not build details and all.
+
+### Managing Plugins 
+
+* Advanced installation
+The Update Center only allows the installation of the most recently released version of a plugin. In cases where an older release of the plugin is desired, a Jenkins administrator can download an older .hpi archive and manually install that on the Jenkins controller.
+
+Jenkins stores plugins it has downloaded in the plugins directory with a .jpi suffix, whether the plugins originally had a .jpi or an .hpi suffix.
+
+If an administrator manually copies a plugin archive into the plugins directory, it should be named with a .jpi suffix to match the file names used by plugins installed from the update center.
+
+* From the web UI
+Assuming a .hpi file has been downloaded, a logged-in Jenkins administrator may upload the file from within the web UI:
+
+Navigate to the Manage Jenkins > Plugins page in the web UI.
+
+Click on the Advanced tab.
+
+Choose the .hpi file from your system or enter a URL to the archive file under the Deploy Plugin section.
+
+Deploy the plugin file.
+* On the controller
+Assuming a .hpi file has been explicitly downloaded by a system administrator, the administrator can manually place the file in a specific location on the file system.
+
+Copy the downloaded .hpi` file into the JENKINS_HOME/plugins directory on the Jenkins controller (for example, on Debian systems JENKINS_HOME is generally /var/lib/jenkins). If an administrator manually copies a plugin archive into the plugins directory, it should be named with a .jpi suffix to match the file names used by plugins installed from the update center.
+
+The controller must be restarted before the plugin is loaded and made available in the Jenkins environment.
+
+
+A plugin may also be uninstalled by removing the corresponding .jpi file from the JENKINS_HOME/plugins directory on the controller. The plugin will continue to function until the controller has been restarted.
+
+If a plugin file is removed but required by other plugins, the Jenkins controller may fail to boot correctly.
+
+* Uninstalling a plugin does not remove the configuration that the plugin may have created. If there are existing jobs/nodes/views/builds/etc configurations that reference data created by the plugin, during boot Jenkins will warn that some configurations could not be fully loaded and ignore the unrecognized data. *
+
+Since the configuration(s) will be preserved until they are overwritten, re-installing the plugin will result in those configuration values reappearing.
+
+* Removing old data
+Jenkins provides a facility for purging configuration left behind by uninstalled plugins. Navigate to Manage Jenkins and then click on Manage Old Data to review and remove old data.
+
+* A systems administrator may also disable a plugin by creating a file on the Jenkins controller, such as: JENKINS_HOME/plugins/PLUGIN_NAME.jpi.disabled.
+
+
+### plugins using the cli : Using the Jenkins CLI
+https://www.jenkins.io/doc/book/managing/plugins/#using-the-jenkins-cli
+
+
+The Plugin Manager allows plugins to be explicitly unpinned. The JENKINS_HOME/plugins/PLUGIN_NAME.hpi.pinned file can also be manually created/deleted to control the pinning behavior. If the pinned file is present, Jenkins will use whatever plugin version the user has specified. If the file is absent, Jenkins will restore the plugin to the default version on startup.
+
+
+refrence : https://www.jenkins.io/doc/book/managing/plugins/
+
+-----------------------------------------------------------
+----------------------------------------------------------
+
+## About Jenkins 
+The Manage Jenkins >> About Jenkins page shows the current release of Jenkins on your system plus information about licenses for all components. The top of the display shows the release and version of Jenkins that is running.
+
+The following information about your Jenkins cluster is also provided:
+
+	* List of all third-party libraries used for this release of Jenkins, with links to licensing details about each library.
+
+	* List of static resources that are installed.
+
+	* List of installed plugins, each of which includes a link to the page that shows all third-party dependencies for each plugin with a link to licensing details about each library.
+
+
+refrence : https://www.jenkins.io/doc/book/managing/about-jenkins/
+
+-----------------------------------------------------------
+----------------------------------------------------------
+
+## System Information 
+The Manage Jenkins >> System Information page provides detailed information about what is available on this Jenkins instance:
+
+System Properties that can be used as arguments to the command line used to start Jenkins.
+
+	* Environment Variables recognized on this system, with current values. This includes the environment variables defined by Jenkins and available on all systems as well as environment variables associated with plugins installed on this instance.
+
+	* List of Plugins installed on the system.
+
+	* Memory Usage gives a graph that shows the current memory usage for this instance.
+
+refrence : https://www.jenkins.io/doc/book/managing/system-info/
+
+-----------------------------------------------------------
+----------------------------------------------------------
+
+
+Jenkins Features Controlled with System Properties 
+hudson and other system plugins and we can change the properties from CLI. 
+refrence : https://www.jenkins.io/doc/book/managing/system-properties/
+
+-----------------------------------------------------------
+----------------------------------------------------------
+
+Change System Time Zone 
+refrence : https://www.jenkins.io/doc/book/managing/change-system-timezone/
+
+-----------------------------------------------------------
+----------------------------------------------------------
+
+jenkins cli
+refrence : https://www.jenkins.io/doc/book/managing/cli/
+
+script console 
+refrence : https://www.jenkins.io/doc/book/managing/script-console/
+
+Groovy Hook Scripts 
+refrence : https://www.jenkins.io/doc/book/managing/groovy-hook-scripts/
+
+
+
+-----------------------------------------------------------
+----------------------------------------------------------
+
+## Managing Nodes 
+
+* Jenkins controller
+	* The Jenkins controller is the Jenkins service itself and where Jenkins is installed. It is also a web server that also acts as a "brain" for deciding how, when, and where to run tasks. Management tasks such as configuration, authorization, and authentication are executed on the controller, which serves HTTP requests. Files written when a Pipeline executes are written to the filesystem on the controller, unless they are off-loaded to an artifact repository such as Nexus or Artifactory.
+
+* Nodes
+	* Nodes are the "machines" on which build agents run. Jenkins monitors each attached node for disk space, free temp space, free swap, clock time/sync, and response time. A node is taken offline if any of these values go outside the configured threshold. Jenkins supports two types of nodes:
+
+* built-in node
+	* The built-in node is a node that exists within the controller process. It is possible to use agents and the build-in node to run tasks. However, running tasks on the built-in node is discouraged for security, performance, and scalability reasons. The number of executors configured for the node determines the node’s ability to run tasks. Set the number of executors to 0 to disable running tasks on the built-in node.
+
+
+
+* Executors
+	* An executor is a slot for the execution of tasks. Effectively, it is a thread in the agent. The number of executors on a node defines the number of concurrent tasks that can run. In other words, this determines the number of concurrent Pipeline stages that can execute at the same time. Determine the correct number of executors per build node must be determined based on the resources available on the node and the resources required for the workload. When determining how many executors to run on a node, consider CPU and memory requirements, as well as the amount of I/O and network activity:
+
+		* One executor per node is the safest configuration.
+
+		* One executor per CPU core can work well, if the tasks running are small.
+
+		* Monitor I/O performance, CPU load, memory usage, and I/O throughput carefully when running multiple executors on a node.
+
+
+refrence : https://www.jenkins.io/doc/book/managing/nodes/
+
+-----------------------------------------------------------
+----------------------------------------------------------
+## In-process Script Approval 
+To protect Jenkins from execution of malicious scripts, these plugins execute user-provided scripts in a Groovy Sandbox that limits the internal APIs that are accessible. This protection is provided by the Script Security plugin. As soon as an unsafe method is used in any of the scripts, the administrator can use the "In-process Script Approval" action appears in Manage Jenkins to allow the unsafe method. Unsafe methods should not be enabled without careful consideration of the impact.
+
+
+refrence : https://www.jenkins.io/doc/book/managing/script-approval/
+
+
+
+
+-----------------------------------------------------------
+----------------------------------------------------------
+
+## User Content 
+Jenkins has a mechanism known as "User Content", where administrators can place files inside $JENKINS_HOME/userContent, and these files are served from http://yourhost/jenkins/userContent. This can be thought of as a mini HTTP server to serve images, stylesheets, and other static resources that you can use from various description fields inside Jenkins.
+
+* Note that these files are not subject to any access controls beyond requiring Overall/Read access.
+* See Git userContent plugin for how to manage these files through a Git repository.
+
+  refrence : https://www.jenkins.io/doc/book/managing/user-content/
+
+  
+
+-----------------------------------------------------------
+----------------------------------------------------------
+
+## Spawning Processes From Build 
+
+refrence : https://www.jenkins.io/doc/book/managing/spawning-processes/
+
+-----------------------------------------------------------
+----------------------------------------------------------
+## Architecting for Scale 
+* Vertical growth is when the load on a Jenkins controller load is increased by having more configured jobs or orchestrating more frequent builds. This may also mean that more teams are depending on that one controller.
+
+* Horizontal growth is the creation of additional Jenkins controllers to accommodate new teams or projects, rather than adding new teams or projects to an existing controller.
+
+There are potential pitfalls associated with each approach to scaling Jenkins, but with careful planning, many of them can be avoided or managed. Here are some things to consider when choosing a strategy for scaling your organization’s Jenkins instances:  REFER TO DOCS
+
+
+## Calculating how many jobs, controllers, and executors are needed
+Having the best possible estimate of necessary configurations for a Jenkins installation allows an organization to get started on the right foot with Jenkins and reduces the number of configuration iterations needed to achieve an optimal installation. The challenge for Jenkins architects is that true limit of vertical scaling on a Jenkins controller is constrained by whatever hardware is in place for the controller, as well as harder to quantify pieces like the types of builds and tests that will be run on the build nodes.
+
+There is a way to estimate roughly how many controllers, jobs and executors will be needed based on build needs and number of developers served. These equations assume that the Jenkins controller will have 5 cores with one core per 100 jobs (500 total jobs/controller) and that teams will be divided into groups of 40.
+
+If you have information on the actual number of available cores on your planned controller, you can make adjustments to the "number of controllers" equations accordingly.
+The equation for estimating the number of controllers and executors needed when the number of configured jobs is known is as follows:
+
+controllers = number of jobs/500
+executors = number of jobs * 0.03
+The equation for estimating the maximum number of jobs, controllers, and executors needed for an organization based on the number of developers is as follows:
+
+number of jobs = number of developers * 3.333
+number of controllers = number of jobs/500
+number of executors = number of jobs * 0.03
+These numbers will provide a good starting point for a Jenkins installation, but adjustments to actual installation size may be needed based on the types of builds and tests that an installation runs.
+
+
+
+
+## Finding your $JENKINS_HOME
+* Windows :  $JENKINS_HOME will be "C:\Program Files (x86)\jenkins". You can edit the location of your $JENKINS_HOME by opening the jenkins.xml file and editing the $JENKINS_HOME variable, or going to the "Manage Jenkins" screen, clicking on the "Install as Windows Service" option in the menu, and then editing the "Installation Directory" field to point to another existing directory.
+* Linux : By default, $JENKINS_HOME is set to /var/lib/jenkins and $JENKINS_WAR is set to /usr/share/java/jenkins.war.
+You can edit the location of $JENKINS_HOME by running systemctl edit jenkins and adding the following:
+
+## Anatomy of a $JENKINS_HOME
+The folder structure for a $JENKINS_HOME directory is as follows:
+
+```
+JENKINS_HOME
+ +- config.xml     (Jenkins root configuration file)
+ +- *.xml          (other site-wide configuration files)
+ +- identity.key   (RSA key pair that identifies an instance)
+ +- secret.key     (deprecated key used for some plugins' secure operations)
+ +- secret.key.not-so-secret  (used for validating _$JENKINS_HOME_ creation date)
+ +- userContent    (files served under your https://server/userContent/)
+ +- secrets        (root directory for the secret+key for credential decryption)
+     +- hudson.util.Secret   (used for encrypting some Jenkins data)
+     +- master.key           (used for encrypting the hudson.util.Secret key)
+     +- InstanceIdentity.KEY (used to identity this instance)
+ +- fingerprints   (stores fingerprint records, if any)
+ +- plugins        (root directory for all Jenkins plugins)
+     +- [PLUGINNAME]   (sub directory for each plugin)
+         +- META-INF       (subdirectory for plugin manifest + pom.xml)
+         +- WEB-INF        (subdirectory for plugin jar(s) and licenses.xml)
+     +- [PLUGINNAME].jpi   (.jpi or .hpi file for the plugin)
+ +- jobs           (root directory for all Jenkins jobs)
+     +- [JOBNAME]      (sub directory for each job)
+         +- config.xml     (job configuration file)
+         +- workspace      (working directory for the version control system)
+         +- latest         (symbolic link to the last successful build)
+         +- builds         (stores past build records)
+             +- [BUILD_ID]     (subdirectory for each build)
+                 +- build.xml      (build result summary)
+                 +- log            (log file)
+                 +- changelog.xml  (change log)
+     +- [FOLDERNAME]   (sub directory for each folder)
+         +- config.xml     (folder configuration file)
+         +- jobs           (sub directory for all nested jobs)
+```
+
+## Choosing a backup strategy
+
+When it comes to creating a backup, it is recommended to exclude archiving the following folders to reduce the size of your backup:
+
+/war      (the exploded Jenkins war directory)
+/cache    (downloaded tools)
+/tools    (extracted tools)
+System configurations
+Your instance’s system configurations exist in the root level of the $JENKINS_HOME folder:
+
+ +- config.xml     (Jenkins root configuration file)
+ +- *.xml          (other site-wide configuration files)
+
+ 
+## Resilient Jenkins Architecture
+Step 1: Make each controller highly available
+Step 2: Enable security
+Step 3: Add build nodes (agents) to controller
+Step 4: Setup a test instance
+
+refrence : https://www.jenkins.io/doc/book/scaling/architecting-for-scale/
+
+-----------------------------------------------------------
+----------------------------------------------------------
+
+
+
+## This is the simplest way of obtaining thread dumps.
+
+If Jenkins or its build agents are operating normally, you can obtain a thread dump remotely by going to http://your.jenkins.server/threadDump. For an agent named 'xyz', go to http://your.jenkins.server/computer/xyz/systemInfo. You need to have the administrator permission on the system.
