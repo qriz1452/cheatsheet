@@ -70,6 +70,8 @@ gradle wrapper command adds the wrapper and required jars to the project
 gradle wrapper --gradle-version 7.1.1
 This adds the following files to the project.
 
+```
+
 └── <project folder>
     └── gradlew
     └── gradlew.bat
@@ -81,7 +83,7 @@ This adds the following files to the project.
             └── gradle-wrapper.jar
             └── gradle-wrapper.properties
 
-
+```
             
 ------------------
 
