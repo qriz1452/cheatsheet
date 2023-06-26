@@ -28,4 +28,22 @@ Real-Time Use Cases - STLC:
 4. Integration Testing: SonarQube can be integrated into the integration testing phase to analyze the quality of the integrated system and detect any code quality issues introduced during integration.
 5. Continuous Quality Assurance: By incorporating SonarQube into the testing process, organizations can maintain continuous quality assurance, ensuring that code quality is continuously monitored and improved throughout the entire STLC.
 
-Remember to elaborate on each point with relevant examples and visuals to enhance understanding and engagement.
+![image](https://github.com/qriz1452/cheatsheet/assets/112246222/ba69a0e2-390e-45a7-977f-1935067d54cd)
+
+
+![image](https://github.com/qriz1452/cheatsheet/assets/112246222/568a243b-d7e5-4b8c-a8dd-3aa2c7d4bc7f)
+
+![image](https://github.com/qriz1452/cheatsheet/assets/112246222/880363fc-ee60-4545-a10f-95b8aa479322)
+
+![image](https://github.com/qriz1452/cheatsheet/assets/112246222/e7612316-9b4d-4118-8f3d-245c9cfbd146)
+
+![image](https://github.com/qriz1452/cheatsheet/assets/112246222/58c21574-62c3-4f4b-a506-bc97f33cf822)
+
+
+![image](https://github.com/qriz1452/cheatsheet/assets/112246222/c19e4337-1756-4c37-8276-809193cb5aa2)
+
+![image](https://github.com/qriz1452/cheatsheet/assets/112246222/10e9b692-04cd-4b24-b6f1-6dbbbf2aef98)
+
+![image](https://github.com/qriz1452/cheatsheet/assets/112246222/9e90a33b-5890-427e-b3ac-2998585e13bb)
+
+![image](https://github.com/qriz1452/cheatsheet/assets/112246222/d0403266-62c3-4823-84f8-843bb5d1e352)
