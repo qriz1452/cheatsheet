@@ -118,6 +118,14 @@ chmod 644 file — you can read and write, and everyone else can only read - goo
 
 chmod 755 file — you can read, write, and execute, and everyone else can read and execute - good for programs that you want to share
 
+sudo chown <user>:<group> <directory>   -- setting permission of directory
+
+sudo useradd -aG <group> <user >  -- add user to group
+
+sudo chown root:docker /var/run/docker.sock -- add docker deamon socket file to docker group
+
+sudo groupadd docker -- adding docker group
+
 NETWORKING
 
 wget file — download a file
@@ -199,5 +207,20 @@ for folder :- scp -ri r_login.pem  artifactory-oss-6.7.2.tar.gz  ec2-user@34.222
 sudo lsof /var/lib/dpkg/lock-frontend  : will show PID of process holding the lock
 
 sudo dpkg --configure -a
+
+sudo vi /etc/systemd/system/<xyz>.service  -- systemd file for xyz service
+
+sudo systemctl deamon-reload -- reloading deamon
+
+
+## firewall
+
+centos 8 : sudo systemctl stop firewalld -- to stop firewall
+
+ubunto : sudo ufw disable  -- to stop furewall
+
+ip addr show
+
+ip route show
 
 
