@@ -223,4 +223,19 @@ ip addr show
 
 ip route show
 
+hostnamectl
+
+ps -p <pid>   -- check status of process
+
+ps aux | grep -i yum  -- to check if any package manager process running
+
+sudo yum clean all  -- clear package manager cache
+
+export JAVA_HOME=<path-of-java-home>
+
+iptables -- cmd tool for configuring firewall rules
+
+
+
+
 
