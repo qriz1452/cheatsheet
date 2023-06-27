@@ -189,5 +189,15 @@ alt+f — move cursor forward 1 word
 alt+b — move cursor backward 1 word
 
 ## scp copy in aws 
+```
 only file :- scp -i r_login.pem  artifactory-oss-6.7.2.tar.gz  ec2-user@34.222.132.1:/home/ec2-user 
 for folder :- scp -ri r_login.pem  artifactory-oss-6.7.2.tar.gz  ec2-user@34.222.132.1:/home/ec2-user
+```
+
+## commands i got while troubleshooting :
+
+sudo lsof /var/lib/dpkg/lock-frontend  : will show PID of process holding the lock
+
+sudo dpkg --configure -a
+
+
