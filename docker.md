@@ -18,12 +18,12 @@
 
 ## Docker shell commands:
 
-- docker container run -it —> start new container interactively
-- docker container run exec -it —> run additional commands inside container (exec runs only inside a cotainer which is already started)
-- docker container run --rm -it --name ununtu ubuntu:14.04 bash(to run bash command at the time of container creation, exec works only on already running/stopped containers)
-- docker container run -it --name nginx nginx bash -> to run bash shell without SSH
+- docker container run -it <imagename> —> start new container interactively
+- docker exec -it <container_name_or_id> <command>  —> run additional commands inside container (exec runs only inside a cotainer which is already started)
+- docker container run --rm -it --name ubuntu ubuntu:14.04 bash -c "mkdir 123" --> (to run bash command at the time of container creation, exec works only on already running/stopped containers)
+- docker container run -it --name nginx nginx bash -c "ls /etc/nginx" --> to run bash shell without SSH
 - docker container start -ai {containerName} —> to start container in shell mode if it is stopped
-- docker container exec -it {containerId} bash—>Run a command in a running container —> when we exit from this shell, container wont stop bcz exec will start additional process and it wont effect existing one
+- docker container exec -it {containerId} bash -c "command here " —>Run a command in a running container —> when we exit from this shell, container wont stop bcz exec will start additional process and it wont effect existing one
 
 ## Docker Networking:
 
@@ -37,9 +37,9 @@
 
 ## Docker networkd:DNS
 
-- docker exec -it {containerName} ping {anotherContainer}— using this we can ping another a container from other container(prerequistie: they both should be in same network) using built in DNS network
-- docker container run --network-alias search --net test -d elasticsearch:2 —> to create a container with DNS alias(—network-alias) and with network test
-- docker container run --rm --net test alpine nslookup search —> it will search for nslookup DNS entry “search” inside that n/w
+- docker exec -it {containerName} ping {anotherContainer}— using this we can ping another a container from other container(prerequistie: they both should be in same network) using built in DNS network , and both container should have ping installed.
+- docker container run --network <network_name> --network-alias <alias_name> -d <image_name>  —> to create a container with DNS alias(—network-alias) and with network test
+- docker container run --rm --net <network_name> <image_name> nslookup <dns_entry>  —> it will search for nslookup DNS entry “search” inside that n/w
 - If we run “docker container run --rm --net test centos curl -s search:9200” it will give different different outputs between two DNS servers
 
 ## Docker Images:
