@@ -3,7 +3,8 @@
 
 ## Docker basic commands:
 
-- docker info —>info about how many containers,images e.t.c
+- docker info —>info about how many containers,images , docker engine edition community or enetrprise , version , plugin and their version and their installed path , container , running , paused , stopped , images , server version . filesyatem , volume , network , logs , swarm , runtime , default  runtime , init binary , runtime sha digest , kernal version , os , os type, architeture , cpus , memory , hsotname , docjer root dir , username , etc.
+- 
 - docker <mngmt commands><sub-commands><options> —>docker command format , older way is - -docker <command><options> ((both works)
 - docker container run --publish 80:80 --detach nginx —> to start container in background
 - docker container ls. —> list of containers(use -a to list all containers)
