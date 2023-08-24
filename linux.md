@@ -238,4 +238,24 @@ iptables -- cmd tool for configuring firewall rules
 
 
 
+===========
+
+## Learn linux by doing course :
+
+to add users  --> useradd <username>
+
+create group --> groupadd <groupname>
+
+check usr details --> id <username>
+
+set group as user account primary group --> usermod -g <group>  <username>
+
+add another group as supplementary group --> usermod -aG  <group> <username>
+
+Lock users account --> usermod -L <username>
+
+
+
+=======================
+
 
