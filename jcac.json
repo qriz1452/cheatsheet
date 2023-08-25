@@ -1,0 +1,280 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - basicSSHUserPrivateKey:
+          id: "jkey"
+          privateKeySource:
+            directEntry:
+              privateKey: "{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}"
+          scope: GLOBAL
+          username: "jenkins"
+      - string:
+          id: "gitkey"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAwyr159j0QV/nftS5nLfkCRSfRmLhJrHaK9MqNG1b2o4ATanZfHpg8hgwYhZn7/gRd8Rb4jy0rT8GA/MgeVm/oLg==}"
+      - string:
+          id: "slacktoken"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAgMAXOCL9STkh7wY5N2C0tLlrGEA41ksKSby9/14GZ0y/mQOIwOOIGM7y4lonFEt8a}"
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
+  disabledAdministrativeMonitors:
+  - "hudson.util.DoubleLaunchChecker"
+  labelAtoms:
+  - name: "built-in"
+  - name: "node"
+  - name: "node-1"
+  - name: "node-master"
+  labelString: "node-master"
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  noUsageStatistics: true
+  nodes:
+  - permanent:
+      labelString: "node-1"
+      launcher:
+        ssh:
+          credentialsId: "jkey"
+          host: "172.31.12.99"
+          port: 22
+          sshHostKeyVerificationStrategy: "knownHostsFileKeyVerificationStrategy"
+      name: "node"
+      numExecutors: 4
+      remoteFS: "/home/jenkins"
+      retentionStrategy: "always"
+  numExecutors: 2
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy:
+    pattern:
+      description: "Explanation of the pattern:      ^: Start of the line.     (BUILD|DEPLOY|TEST|UTILITY|INFRA):\
+        \ A group of keywords representing the primary purpose of the job, separated\
+        \ by the | (OR) operator.     _: An underscore character.     [a-z0-9-]+:\
+        \ One or more lowercase letters, digits, or hyphens, representing the GitHub\
+        \ project name.     (_[a-z0-9-]+)?: An optional group that allows an underscore\
+        \ followed by more lowercase letters, digits, or hyphens, representing additional\
+        \ information like branch names.     $: End of the line."
+      forceExistingJobs: false
+      namePattern: "^(BUILD|DEPLOY|TEST|UTILITY|INFRA)_[a-z0-9-]+(_[a-z0-9-]+)?$"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: true
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    local:
+      allowsSignup: true
+      enableCaptcha: true
+      users:
+      - id: "quazi"
+        name: "Quazi"
+        properties:
+        - "myView"
+        - preferredProvider:
+            providerId: "default"
+        - "timezone"
+        - "experimentalFlags"
+        - mailer:
+            emailAddress: "qriz1452@gmail.com"
+        - "apiToken"
+        - "slack"
+  slaveAgentPort: -1
+  systemMessage: "This is notification regarding the build #35 , the vulnerability\
+    \ CVE4786 has been found"
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+security:
+  apiToken:
+    creationOfLegacyTokenEnabled: false
+    tokenGenerationOnCreationEnabled: false
+    usageStatisticsEnabled: true
+  gitHooks:
+    allowedOnAgents: false
+    allowedOnController: false
+  gitHostKeyVerificationConfiguration:
+    sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
+  sSHD:
+    port: -1
+unclassified:
+  buildStepOperation:
+    enabled: true
+  datadogGlobalConfiguration:
+    cacheBuildRuns: true
+    ciInstanceName: "jenkins"
+    collectBuildLogs: false
+    emitConfigChangeEvents: false
+    emitSecurityEvents: true
+    emitSystemEvents: true
+    enableCiVisibility: false
+    refreshDogstatsdClient: false
+    reportWith: "HTTP"
+    retryLogs: true
+    targetApiURL: "https://api.datadoghq.com/api/"
+    targetHost: "localhost"
+    targetLogIntakeURL: "https://http-intake.logs.datadoghq.com/v1/input/"
+    targetPort: 8125
+    targetTraceCollectionPort: 8126
+    targetWebhookIntakeURL: "https://webhook-intake.datadoghq.com/api/v2/webhook/"
+  defaultDisplayUrlProvider:
+    providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
+  email-ext:
+    adminRequiredForTemplateTesting: false
+    allowUnregisteredEnabled: false
+    charset: "UTF-8"
+    debugMode: false
+    defaultBody: |-
+      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+      Check console output at $BUILD_URL to view the results.
+    defaultContentType: "text/plain"
+    defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
+    defaultTriggerIds:
+    - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
+    maxAttachmentSize: -1
+    maxAttachmentSizeMb: -1
+    precedenceBulk: false
+    watchingEnabled: false
+  enrichedSummaryConfig:
+    enrichedSummaryEnabled: false
+    httpClientDelayBetweenRetriesInSeconds: 1
+    httpClientMaxRetries: 3
+    httpClientTimeoutInSeconds: 1
+  fingerprints:
+    fingerprintCleanupDisabled: true
+    storage: "file"
+  gitHubConfiguration:
+    apiRateLimitChecker: ThrottleForNormalize
+  gitHubPluginConfig:
+    hookUrl: "http://13.215.208.136:8080/github-webhook/"
+  globalDefaultFlowDurabilityLevel:
+    durabilityHint: MAX_SURVIVABILITY
+  globalTimeOutConfiguration:
+    operations:
+    - "abortOperation"
+    overwriteable: false
+    strategy:
+      absoluteTimeOutStrategy:
+        timeoutMinutes: "30"
+  injectionConfig:
+    allowUntrusted: false
+    checkForBuildAgentErrors: false
+    enabled: false
+    enforceUrl: false
+    injectCcudExtension: false
+    injectMavenExtension: false
+  jenkinsLintGlobalConfiguration:
+    artifactCheckerEnabled: true
+    bfaCheckerEnabled: true
+    cleanupWorkspaceCheckerEnabled: true
+    gitRefCheckerEnabled: true
+    gitRefSubmoduleCheckerEnabled: true
+    gitShallowCheckerEnabled: true
+    globalEnabled: true
+    gradleWrapperCheckerEnabled: true
+    groovySystemExitCheckerEnabled: true
+    hardcodedScriptCheckerEnabled: true
+    hardcodedScriptIgnoredComment: false
+    hardcodedScriptThreshold: 2
+    javadocCheckerEnabled: true
+    jobActionEnabled: true
+    jobAssignedLabelCheckerEnabled: true
+    jobDescriptionCheckerEnabled: true
+    jobLogRotatorCheckerEnabled: true
+    jobNameCheckerEnabled: true
+    lintDisabledJobEnabled: true
+    masterLabelCheckerEnabled: true
+    mavenJobTypeCheckerEnabled: true
+    multibranchJobTypeCheckerEnabled: true
+    nullSCMCheckerEnabled: true
+    pollingSCMTriggerCheckerEnabled: true
+    slaveDescriptionCheckerEnabled: true
+    slaveLabelCheckerEnabled: true
+    slaveVersionCheckerEnabled: true
+    timeoutCheckerEnabled: true
+    timerTriggerCheckerEnabled: true
+    windowsSlaveLaunchCheckerEnabled: true
+  junitTestResultStorage:
+    storage: "file"
+  location:
+    adminAddress: "address not configured yet <nobody@nowhere>"
+    url: "http://13.215.208.136:8080/"
+  lockableResourcesManager:
+    declaredResources:
+    - description: "jenkins node lock"
+      labels: "node-1"
+      name: "node"
+      properties:
+      - name: "Node"
+        value: "node-1"
+      reservedBy: "Quazi Team"
+  mailer:
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
+  pollSCM:
+    pollingThreadCount: 10
+  prometheusConfiguration:
+    appendParamLabel: false
+    appendStatusLabel: false
+    collectDiskUsage: true
+    collectNodeStatus: true
+    collectingMetricsPeriodInSeconds: 120
+    countAbortedBuilds: true
+    countFailedBuilds: true
+    countNotBuiltBuilds: true
+    countSuccessfulBuilds: true
+    countUnstableBuilds: true
+    defaultNamespace: "default"
+    fetchTestResults: true
+    jobAttributeName: "jenkins_job"
+    path: "prometheus"
+    perBuildMetrics: false
+    processingDisabledBuilds: false
+    useAuthenticatedEndpoint: false
+  scmGit:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
+  slackNotifier:
+    botUser: false
+    room: "flask-notes-app"
+    sendAsText: false
+    teamDomain: "cicd-projectworkspace"
+    tokenCredentialId: "slacktoken"
+  timestamper:
+    allPipelines: false
+    elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
+    systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"
