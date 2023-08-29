@@ -1,13 +1,14 @@
 # QUICK SUMMARY :
-As a DevOps engineer working with Yarn, there are several key points to remember. Yarn is a package manager for JavaScript that helps manage project dependencies efficiently. Here are some important points to keep in mind:
+ Yarn is a _package manager_ for _JavaScript_ that helps _manage project dependencies_ efficiently.
 
-1. **Package Management**: Yarn is used to manage packages and dependencies for JavaScript projects. It ensures that the correct versions of packages are installed and that the dependencies are properly resolved.
+ 
+1. **Package Management**: Yarn is used to _manage packages and dependencies for JavaScript projects_. It ensures that the _correct versions of packages_ are installed and that the dependencies are properly resolved.
 
-2. **Performance**: Yarn is known for its faster package installation and dependency resolution compared to other package managers like npm. It uses a caching mechanism to speed up subsequent installations and updates.
+2. **Performance**: Yarn is known for its _faster package installation and dependency resolution_ compared to other package managers like npm. It _uses_ a _caching_ mechanism to speed up subsequent installations and updates.
 
-3. **yarn.lock**: Yarn generates a `yarn.lock` file that locks down the versions of all dependencies. This ensures consistency across different environments and among team members.
+3. **yarn.lock**: Yarn generates a `yarn.lock` file that _locks down the versions of all dependencies_. This _ensures consistency_ across different environments and among team members.
 
-4. **Dependency Resolution**: Yarn uses a deterministic algorithm to resolve dependencies, which helps avoid the "dependency hell" problem where different developers or environments end up with different dependency versions.
+4. **Dependency Resolution**: Yarn uses a deterministic algorithm to resolve dependencies, which helps avoid the _"dependency hell"_ problem where different developers or environments end up with different dependency versions.
 
 5. **Commands**: Common Yarn commands include:
    - `yarn install`: Install project dependencies based on the `yarn.lock` file.
@@ -17,15 +18,15 @@ As a DevOps engineer working with Yarn, there are several key points to remember
    - `yarn outdated`: Check for outdated packages in the project.
    - `yarn audit`: Check for security vulnerabilities in dependencies.
 
-6. **Workspaces**: Yarn workspaces allow you to manage multiple packages within a single, root project. This is especially useful for monorepos where you have multiple related packages.
+6. **Workspaces**: Yarn workspaces allow you to _manage multiple packages within a single, root project_. This is especially useful for monorepos where you have multiple related packages.
 
-7. **Private Registries**: Yarn supports authentication and access to private npm registries, making it suitable for projects that use private or internal packages.
+7. **Private Registries**: Yarn supports authentication and access to _private npm registries_, making it suitable for projects that use private or internal packages.
 
-8. **Configuration**: Yarn provides a `yarnrc` file that allows you to configure various settings for Yarn, such as registry URLs, network settings, and more.
+8. **Configuration**: Yarn provides a `yarnrc` file that allows you to configure various _settings for Yarn_, such as _registry URLs, network settings_, and more.
 
 9. **Integration with DevOps Pipelines**: Yarn can be integrated into your CI/CD pipelines to ensure consistent dependency management and reproducible builds.
 
-10. **Version Control**: The `yarn.lock` file should be version controlled along with your project's source code to ensure that all team members are using the same dependencies.
+10. **Version Control**: The `yarn.lock` file _should be version controlled_ along with your project's source code to ensure that all team members are using the same dependencies.
 
 11. **Global vs. Local Install**: While Yarn is mainly used for project-level dependencies, you can also install packages globally using the `yarn global add [package]` command. However, this approach is less common in the context of DevOps.
 
@@ -33,7 +34,7 @@ As a DevOps engineer working with Yarn, there are several key points to remember
 
 13. **Community and Documentation**: Yarn has an active community and thorough documentation, making it easy to find solutions to common problems and stay up to date with best practices.
 
-Remember that while Yarn offers many advantages, the choice between Yarn and npm can depend on your project's specific needs and your team's preferences.
+Remember that while Yarn offers many advantages, the _choice between Yarn and npm can depend on your project's specific needs and your team's preferences._
 
 
 
@@ -51,56 +52,55 @@ Quick Install
 $` brew install yarn --without-node`
 
 - Upgrade yarn
-$ brew upgrade yarn
+$ `brew upgrade yarn`
 CLI Commands
 - Add package to 'dependencies'
-$ yarn add <package>
+$ `yarn add <package>`
 
 - Add package to 'devDependencies'
-$ yarn add -D <package>
+$ `yarn add -D <package>`
 
 - Add packages as exact versions
-$ yarn add -E <package>
+$ `yarn add -E <package>`
 
 - Install packages globally on your operating system
-$ yarn global add <package>
+$ `yarn global add <package>`
 
 - Removes the package from all types of dependencies
-$ yarn remove <package>
+$ `yarn remove <package>`
 
 - List installed packages
-$ yarn list
+$` yarn list`
 
 - List top-level installed packages
-$ yarn list --depth=0
+$ `yarn list --depth=0`
 
 - List installed top-level global packages
-$ yarn global list --depth=0
+$ `yarn global list --depth=0`
 
 - List packages with filter string and depth level
-$ yarn list --pattern "gulp|grunt" --depth=1
+$ `yarn list --pattern "gulp|grunt" --depth=1`
 
 - Cleans and removes unnecessary files from package dependencies.
-$ yarn autoclean
+$ `yarn autoclean`
 
 - Checks for outdated package dependencies
-$ yarn outdated
+$ `yarn outdated`
 
 - Show information about why a package is installed.
-$ yarn why <query>
-$ yarn why jest
+$ `yarn why <query>`
+$` yarn why jest`
 
-- Running this command will clear the global cache. It will be
-- populated again the next time yarn or yarn install is run.
-- Additionally, you can specify one or more packages that you
-- want to clean.
+- Running this command will clear the global cache. It will be populated again the next time yarn or yarn install is run. Additionally, you can specify one or more packages that you want to clean.
 $ yarn cache clean
 
+
+**npm equivalents**
+
 ```
-npm equivalents
 npm	   ........................  yarn
 npm init	........................  yarn init
-npm install	........................    yarn
+npm install	........................    yarn install
 npm install gulp --save	........................   yarn add gulp
 npm install gulp --save-dev --save-exact ........................  	yarn add gulp --dev --exact
 npm install -g gulp	........................    yarn global add gulp
@@ -113,31 +113,35 @@ npm update	........................    yarn upgrade
 
 
 
-
-
 ```
+
 yarn install
---no-lockfile
---pure-lockfile
---frozen-lockfile
---silent
---offline
---update-checksums
---check-files
---flat
---force
---ignore-scripts
---modules-folder <path>
---production[=true|false]
+--no-lockfile    // Do not generate or update the yarn.lock file
+--pure-lockfile  // Use only the existing yarn.lock and do not generate a new one
+--frozen-lockfile    // Install using only the dependencies specified in yarn.lock
+--silent     // Suppress detailed logging for a cleaner console output
+--offline    // Use only locally cached packages and do not fetch new dependencies
+--update-checksums    // Update checksums in the yarn.lock file
+--check-files   // Verify that all installed package files are present and valid
+--flat     // Install dependencies in a flat directory structure
+--force    // Reinstall all packages, even if they are already present
+--ignore-scripts   // Skip execution of package installation scripts
+--modules-folder <path>   // Specify a custom location for node_modules
+--production[=true|false]   // Install only production dependencies (default: false)
 ```
+
 ```
+
 yarn add
---dev
---peer
---optional
---exact
---tilde
+--dev      // Add the package as a development dependency
+--peer     // Add the package as a peer dependency
+--optional // Add the package as an optional dependency
+--exact    // Install the exact version of the package
+--tilde    // Install the most recent release with the same minor version
+
+
 ```
+
 
 Selective version resolution
 In package.json:
@@ -145,7 +149,7 @@ In package.json:
 "resolutions": {
   "**/sass-brunch/node-sass": "4.5.2"
 }
-````
+```
 
 Workspaces
 In package.json:
@@ -163,9 +167,10 @@ jest/
 ```
 
 Create
-yarn create react-app hello
+```
+yarn create react-app hello   // used to create a new React application named "hello" using the create-react-app tool. 
 
-
+```
 ----------------------------------
 
 
@@ -176,27 +181,25 @@ https://github.com/areai51/yarn-cheatsheet#readme
 
 # YARN INTERVIEW  DEVOPS :
 
-Sure, I'd be happy to explain Yarn from the perspective of someone who has used it in real-time projects, worked on it, and faced various issues. Let's imagine you're having a conversation with a fellow developer who has hands-on experience with Yarn:
-
 You: Hey, I heard you've been using Yarn in your projects. How has your experience been?
 
-Developer: Oh yeah, definitely. Yarn has been my go-to package manager for JavaScript projects. It's been quite a journey, I must say. At the beginning, I was just tired of slow package installations and inconsistent dependency versions with npm, so Yarn was a breath of fresh air.
+Developer: Oh yeah, definitely. Yarn has been my go-to _package manager for JavaScript projects_. It's been quite a journey, I must say. At the beginning, I was just _tired of slow package installations and inconsistent dependency versions with npm, so Yarn was a breath of fresh air_.
 
 You: I can relate to that frustration. What specifically do you find better about Yarn?
 
-Developer: Well, for starters, Yarn's speed is a game-changer. It's crazy how much time you save on package installations, especially when you have large projects with lots of dependencies. I remember once I switched to Yarn, our build times noticeably improved.
+Developer: Well, for starters, Yarn's speed is a game-changer. It's crazy how much time you save on package installations, especially when you have large projects with lots of dependencies. _I remember once I switched to Yarn, our build times noticeably improved._
 
 You: That sounds impressive. Have you encountered any challenges while using Yarn?
 
-Developer: Oh, definitely. One of the common challenges is managing the `yarn.lock` file. It's a lifesaver for consistent builds, but there have been instances where conflicts arose because of the way Yarn resolves dependencies. Occasionally, I had to manually tweak the `yarn.lock` file to resolve these issues.
+Developer: Oh, definitely. One of the common _challenges is managing_ the `yarn.lock` file. It's a lifesaver for consistent builds, but there have been instances where conflicts arose because of the way Yarn resolves dependencies. Occasionally, I had to manually tweak the `yarn.lock` file to resolve these issues.
 
 You: I can see how that might be tricky. What else?
 
-Developer: Workspaces can be a bit tricky too. While they're amazing for managing monorepos, setting them up properly and dealing with cross-dependencies between packages can get complex. And sometimes, the documentation wasn't entirely clear on some of the nuances.
+Developer: Workspaces can be a bit tricky too. While they're amazing for managing monorepos, _setting them up properly and dealing with cross-dependencies between packages can get complex_. And sometimes, the documentation wasn't entirely clear on some of the nuances.
 
 You: That makes sense. How about security and vulnerabilities?
 
-Developer: Ah, yes. Yarn's `yarn audit` command is a savior for checking security vulnerabilities in your packages. But I've had cases where the audit flagged some false positives or didn't catch all the issues. It's still a great tool, but it's not foolproof.
+Developer: Ah, yes. Yarn's `yarn audit` command is a savior for _checking security vulnerabilities _in your packages. But I've had cases where the audit _flagged some false positives or didn't catch all the issues_. It's still a great tool, but it's not foolproof.
 
 You: Got it. Any other experiences you'd like to share?
 
@@ -206,9 +209,7 @@ You: That sounds like a challenging situation. Despite the challenges, do you th
 
 Developer: Absolutely. Despite the occasional hiccups, Yarn has been a huge productivity boost. The performance gains alone are worth it. Plus, Yarn's community is pretty active, and I've found solutions to most of my problems through online forums and discussions.
 
-You: Thanks for sharing your insights! It sounds like Yarn has a lot to offer despite a few bumps along the way.
-
-Developer: You're welcome! Just remember, like any tool, Yarn has its quirks, but with a bit of experience, you'll learn how to navigate them and make the most of its benefits.
+------------------------------
 
 
 Sure, I can provide an explanation of Yarn in the context of someone who has used it in real-time DevOps projects and worked with various tools like Docker, Jenkins, Kubernetes (K8s), Ansible, and Terraform. Imagine having a conversation with a DevOps engineer who has hands-on experience:
