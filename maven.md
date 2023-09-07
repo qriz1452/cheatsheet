@@ -5,11 +5,14 @@ Creating a Project in MVN
 mvn archetype:generate -DgroupId=org.yourcompany.project -DartifactId=application
 ```
 
-MVN Command Execution Phases
+MVN Command Execution Phases:
+
+
 MVN command execution is separated into phases. They form the lifecycle of the build.
-
+,
 Maven Command Execution Phases
-
+,
+```
 clean  :   Delete target directory.
 validate   :    Validate if the project is correct.
 compile   :   Compile source code, classes stored in target/classes.
@@ -18,8 +21,13 @@ package   :   Take the compiled code and package it in its distributable format,
 verify   :    Run any checks to verify the MVN package is valid and meets quality criteria.
 install   :    Install the package into the local repository.
 deploy   :   Copies the final MVN package to the remote repository.
+```
 
-Maven Command Line Options
+
+Maven Command Line Options : 
+
+
+```
 
 -DskipTests=true   :    Compiles the tests, but skips running them.
 -Dmaven.test.skip=true   :    Skips compiling the tests and does not run them.
@@ -30,6 +38,7 @@ Maven Command Line Options
 -o OR  --offline     :   Build a Maven project offline. It uses the local repository for everything, and doesn't check the internet.
 -X OR --debug   :   Enables the debug output. When things go wrong, Maven doesn't always print the most useful error messages, enabling the debug can get you the needed hint to what went wrong.
 -U  OR --update-snapshots   :   Forces a check for updated dependencies from the remote repositories. When you depend on a project that is still in development, you'll need to depend on the SNAPSHOT versions. And Maven will cache them in the local repository as usual. However, the problem with the snapshots is that one version identifier can mean different artifacts, when a new version of the snapshot is pushed to the repository. To make Maven ignore the local cache, use this option.
+```
 
 
 Run a single test:
