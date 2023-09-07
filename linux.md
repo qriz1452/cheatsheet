@@ -258,4 +258,5 @@ Lock users account --> usermod -L <username>
 
 =======================
 
-
+free -g
+cat /proc/cpuinfo
